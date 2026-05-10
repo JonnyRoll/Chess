@@ -94,7 +94,7 @@ print_board()
 print('white pieces:', Piece.white_player_pieces)
 print('black pieces:', Piece.black_player_pieces)
 
-print('heelo')
+
 
 
 
