@@ -18,9 +18,6 @@ class Rook(Piece):
 
         return False
 
-
-
-
     def move_vertically(self, amount: int) -> bool:
         # this will check if the input is NOT valid!
         if not (0 <= self.vertical_axis + amount < 8):
@@ -32,4 +29,21 @@ class Rook(Piece):
             self.place_piece(vertical_desired=self.vertical_axis + amount, horizontal_desired=self.horizontal_axis)
             return True
 
+        return False
+
+    def move(self, vertical_move: int, horizontal_move: int) -> bool:
+        if (vertical_move == 0) and (horizontal_move == 0):
+            return False
+
+        elif (vertical_move != 0) and (horizontal_move != 0):
+            return False
+
+        # no vertical movement
+        elif vertical_move == 0:
+            return self.move_horizontally(amount=horizontal_move)
+        # no horizontal movement
+        elif horizontal_move == 0:
+            return self.move_vertically(amount=vertical_move)
+
+         #if we get here there was a problem in the movement
         return False

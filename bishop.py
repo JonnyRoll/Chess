@@ -7,7 +7,7 @@ class Bishop(Piece):
         super().__init__(name = name, vertical_axis= vertical_axis, horizontal_axis = horizontal_axis, value = value, color = color)
 
 
-    def _move_diagonal(self, vertical_direction: int, horizontal_direction: int) -> bool:
+    def move(self, vertical_direction: int, horizontal_direction: int) -> bool:
        if (0 <= vertical_direction + self.vertical_axis < 8) and (0 <= horizontal_direction + self.horizontal_axis < 8):
            check_if_valid = self.valid_move_diagonal(vertical_direction=vertical_direction,
                                                      horizontal_direction=horizontal_direction)

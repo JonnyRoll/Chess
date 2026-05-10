@@ -1,9 +1,11 @@
-from os import remove
+# this is the abstract method library!
+from abc import ABC, abstractmethod
 
 def capture_piece (opponent_set: set, killed_piece) -> None:
     opponent_set.remove(killed_piece)
 
-class Piece:
+# the ABC says that this is a abstract class (cannot make an instance of it!), can only makes instance of its children
+class Piece(ABC):
     chess_board = [[0] * 8 for i in range(8)]
     black_player_pieces = set()
     white_player_pieces = set()
@@ -20,6 +22,10 @@ class Piece:
     def __repr__(self):
         return self.name
 
+    # this is the abstract method!
+    @abstractmethod
+    def move(self, vertical_direction: int, horizontal_direction: int):
+        pass
 
     def place_piece(self, vertical_desired:int, horizontal_desired:int) -> None:
         # removing the piece from old index

@@ -1,3 +1,4 @@
+from Queen import Queen
 from piece import Piece
 from rook import Rook
 from bishop import Bishop
@@ -34,6 +35,12 @@ def creat_rooks() -> None:
     create_pieces(Rook(name='R2_B', vertical_axis=0, horizontal_axis=7, value=5, color=False))
 
 
+def creat_queens() -> None:
+    # if the piece has a color = true then it's a white piece
+    create_pieces(Queen(name='Q1_W', vertical_axis=7, horizontal_axis=3, value=8, color=True))
+    # if the piece has color = false then it is a black piece
+    create_pieces(Queen(name='Q1_B', vertical_axis=0, horizontal_axis=3, value=8, color=False))
+
 
 # placing the chess pieces on the board!
 def place_pieces_on_board(object:Piece) -> None:
@@ -41,19 +48,42 @@ def place_pieces_on_board(object:Piece) -> None:
 
 
 def start_game() -> None:
-    #creating pieaces
+    #creating pieces
     create_bishops()
     creat_rooks()
-
+    creat_queens()
 
 
 def print_board() -> None:
     for i in range (8):
         print(Piece.chess_board[i])
 
+# this function will move the called on piece in the desired direction piece
+def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piece_name: str) -> bool:
+    piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
+    # the piece is in the desired set!
+    for piece in piece_set:
+        # if we found the piece
+        if piece.name == piece_name:
+            # uses the specific move method for the particular piece!
+            return piece.move(vertical_dirct, horizontal_dirct)
+
+    else: return False
+
+
 
 start_game()
 print_board()
+move_piece(2,2,False,'B1_B')
+move_piece(-3,-3,True,'B2_W')
+move_piece(-2,2,True,'B2_W')
+
+print()
+print()
+print_board()
+print('white pieces:', Piece.white_player_pieces)
+print('black pieces:', Piece.black_player_pieces)
+
 
 
 
