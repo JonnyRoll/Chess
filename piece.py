@@ -94,3 +94,39 @@ class Piece(ABC):
             else:
                 return False
 
+    def valid_knight_move(self, vertical_direction: int, horizontal_direction: int) -> bool:
+        new_vertical = self.vertical_axis + vertical_direction
+        new_horizontal = self.horizontal_axis + horizontal_direction
+        # in the case that 0,0 is entered (not a move) or if the move does not make sense for a knight
+        if vertical_direction == 0 or horizontal_direction == 0:
+            return False
+
+        elif ((abs(vertical_direction) != 2 or abs(horizontal_direction) != 1)
+              and
+              (abs(vertical_direction) != 1 or abs(horizontal_direction) != 2)) :
+            return False
+
+
+        # if the position on the board would be invalid (using De Morgan law!) not (p and  q) = (not p) or (not q)
+        elif not ((0 <= new_vertical < 8) and  (0<= new_horizontal < 8)):
+            return False
+
+        # the user entered a valid number!
+        else:
+
+            # the position is empty on the board
+            if Piece.chess_board[new_vertical][new_horizontal] == 0:
+                return True
+            # the position is filled by an opponent piece (need to remove it)
+            elif Piece.chess_board[new_vertical][new_horizontal].color != self.color:
+                opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
+                vertical_index = new_vertical
+                horizontal_index = new_horizontal
+                capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_index][horizontal_index])
+                return True
+            # the position is filled by a piece from the same team (color)
+            else:
+                return False
+
+
+

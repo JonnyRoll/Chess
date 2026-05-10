@@ -13,11 +13,14 @@ class Bishop(Piece):
                                                      horizontal_direction=horizontal_direction)
            if check_if_valid:
                amount_move = abs(vertical_direction)
-               x_index = self.vertical_axis + (abs(amount_move) * (vertical_direction // abs(vertical_direction)))
-               y_index = self.horizontal_axis + (abs(amount_move) * (horizontal_direction // abs(horizontal_direction)))
-               self.place_piece(vertical_desired=x_index, horizontal_desired=y_index)
-               return True
-           else: return False
-        # the user entered at least one invalid number!
-       else: return False
+               vertical_index = self.vertical_axis + (abs(amount_move) * (vertical_direction // abs(vertical_direction)))
+               horizontal_index = self.horizontal_axis + (abs(amount_move) * (horizontal_direction // abs(horizontal_direction)))
+               self.place_piece(vertical_desired=vertical_index, horizontal_desired=horizontal_index)
+            # returns weather the move is valid!
+           return check_if_valid
+       # if we reach here we know the move isn't valid!
+       return False
+
+
+
 

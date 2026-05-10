@@ -2,6 +2,7 @@ from Queen import Queen
 from piece import Piece
 from rook import Rook
 from bishop import Bishop
+from kight import Kight
 
 def create_pieces(object:Piece) -> None:
     # this is the same as sating we will assign set de  penfing on how the colout (very clean!)
@@ -37,9 +38,18 @@ def creat_rooks() -> None:
 
 def creat_queens() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Queen(name='Q1_W', vertical_axis=7, horizontal_axis=3, value=8, color=True))
+    create_pieces(Queen(name='Q_W', vertical_axis=7, horizontal_axis=3, value=8, color=True))
     # if the piece has color = false then it is a black piece
-    create_pieces(Queen(name='Q1_B', vertical_axis=0, horizontal_axis=3, value=8, color=False))
+    create_pieces(Queen(name='Q_B', vertical_axis=0, horizontal_axis=3, value=8, color=False))
+
+def creat_knights() -> None:
+    # if the piece has a color = true then it's a white piece
+    create_pieces(Kight(name = 'K1_W', vertical_axis=7, horizontal_axis=1, value=3, color=True))
+    create_pieces(Kight(name='K2_W', vertical_axis=7, horizontal_axis=6, value=3, color=True))
+
+    # # if the piece has color = false then it is a black piece
+    create_pieces(Kight(name = 'K1_B', vertical_axis=0, horizontal_axis=1, value=3, color=False))
+    create_pieces(Kight(name = 'K2_B', vertical_axis=0, horizontal_axis=6, value=3, color=False))
 
 
 # placing the chess pieces on the board!
@@ -52,6 +62,7 @@ def start_game() -> None:
     create_bishops()
     creat_rooks()
     creat_queens()
+    creat_knights()
 
 
 def print_board() -> None:
@@ -77,6 +88,7 @@ print_board()
 move_piece(2,2,False,'B1_B')
 move_piece(-3,-3,True,'B2_W')
 move_piece(-2,2,True,'B2_W')
+move_piece(2,1, False,'K1_B')
 
 print()
 print()
