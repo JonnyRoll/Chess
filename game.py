@@ -81,9 +81,6 @@ def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piec
 
     else: return False
 
-
-
-
 start_game()
 print_board()
 move_piece(2,2,False,'B1_B')
