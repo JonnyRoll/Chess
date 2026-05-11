@@ -3,6 +3,7 @@ from piece import Piece
 from rook import Rook
 from bishop import Bishop
 from kight import Knight
+from pawn import Pawn
 
 def create_pieces(object:Piece) -> None:
     # this is the same as sating we will assign set de  penfing on how the colout (very clean!)
@@ -51,6 +52,11 @@ def creat_knights() -> None:
     create_pieces(Knight(name = 'K1_B', vertical_axis=0, horizontal_axis=1, value=3, color=False))
     create_pieces(Knight(name = 'K2_B', vertical_axis=0, horizontal_axis=6, value=3, color=False))
 
+def creat_pawn() -> None:
+    for i in range(8):
+        create_pieces(Pawn(name = f'P{i}_W', vertical_axis=6, horizontal_axis=i, value=1, color=True))
+        create_pieces(Pawn(name = f'P{i}_B', vertical_axis=1, horizontal_axis=i, value=1, color=False))
+
 
 # placing the chess pieces on the board!
 def place_pieces_on_board(object:Piece) -> None:
@@ -63,6 +69,7 @@ def start_game() -> None:
     creat_rooks()
     creat_queens()
     creat_knights()
+    creat_pawn()
 
 
 def print_board() -> None:
