@@ -20,7 +20,7 @@ def create_bishops() -> None:
 
     # if the piece has a color = false then it's a black piece
     create_pieces(Bishop(name='B1_B', vertical_axis=0, horizontal_axis=2, value=3, color=False))
-    # if the piece has a color = false then its a black piece
+    # if the piece has a color = false then it's a black piece
     create_pieces(Bishop(name='B2_B', vertical_axis=0, horizontal_axis=5, value=3, color=False))
 
 
@@ -94,10 +94,13 @@ move_piece(2,2,False,'B1_B')
 move_piece(-3,-3,True,'B2_W')
 move_piece(-2,2,True,'B2_W')
 move_piece(2,1, False,'K1_B')
+move_piece(2,0,False,'P4_B')
 
 print()
 print()
 print_board()
+print()
+print()
 print('white pieces:', Piece.white_player_pieces)
 print('black pieces:', Piece.black_player_pieces)
 
