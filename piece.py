@@ -24,7 +24,7 @@ class Piece(ABC):
 
     # this is the abstract method!
     @abstractmethod
-    def move(self, vertical_direction: int, horizontal_direction: int):
+    def move(self, vertical_destination_int: int, horizontal_destination_letter: int):
         pass
 
     def place_piece(self, vertical_desired:int, horizontal_desired:int) -> None:
@@ -35,64 +35,81 @@ class Piece(ABC):
         self.vertical_axis = vertical_desired
         self.horizontal_axis = horizontal_desired
 
-    def valid_move_diagonal(self, vertical_direction: int, horizontal_direction: int) -> bool:
-        if vertical_direction == 0 or horizontal_direction == 0:
+    def valid_move_diagonal(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        amount_moved_vertical = vertical_destination - self.vertical_axis
+        amount_moved_horizontal = horizontal_destination - self.horizontal_axis
+        # if we do not move from at least 1 axis
+        if amount_moved_vertical== 0 or amount_moved_horizontal == 0:
             return False
-        elif abs(vertical_direction) != abs(horizontal_direction):
+        # if both axis don't move the same amount
+        elif abs(amount_moved_vertical) != abs(amount_moved_horizontal):
             return False
 
-        amount = abs(vertical_direction)
-        for i in range(1,abs(vertical_direction)):
-            if Piece.chess_board[self.vertical_axis + (i * (vertical_direction // abs(vertical_direction)))][self.horizontal_axis + (i * (horizontal_direction // abs(horizontal_direction)))] == 0:
+        vertical_direction = amount_moved_vertical // abs(amount_moved_vertical)
+        horizontal_direction = amount_moved_horizontal // abs(amount_moved_horizontal)
+        for i in range(1, abs(amount_moved_vertical)):
+            if Piece.chess_board[self.vertical_axis + (i * vertical_direction)][self.horizontal_axis + (i * horizontal_direction)] == 0:
                 continue
             else: return False
-        if Piece.chess_board[self.vertical_axis + (abs(amount) * (vertical_direction // abs(vertical_direction)))][self.horizontal_axis + (abs(amount) * (horizontal_direction // abs(horizontal_direction)))] == 0:
+        if Piece.chess_board[vertical_destination][horizontal_destination] == 0:
             return True
-        elif Piece.chess_board[self.vertical_axis + (abs(amount) * (vertical_direction // abs(vertical_direction)))][self.horizontal_axis + (abs(amount) * (horizontal_direction // abs(horizontal_direction)))].color != self.color:
+        elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
             opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-            vertical_index = self.vertical_axis + (abs(amount) * (vertical_direction // abs(vertical_direction)))
-            horizontal_index = self.horizontal_axis + (abs(amount) * (horizontal_direction // abs(horizontal_direction)))
-            capture_piece(opponent_set=opponent_pieces, killed_piece= Piece.chess_board[vertical_index][horizontal_index])
+            capture_piece(opponent_set=opponent_pieces, killed_piece= Piece.chess_board[vertical_destination][horizontal_destination])
             return True
         else:
             return False
 
 
     # improve this to one path!
-    def valid_move_vert_and_horz(self, amount: int, move_horizontally: bool) -> bool:
-        if amount == 0:
+    def valid_move_vert_and_horz(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        amount_moved_vertically = vertical_destination - self.vertical_axis
+        amount_moved_horizontally = horizontal_destination - self.horizontal_axis
+        # if the piece has not moved
+        if amount_moved_vertically == 0 and amount_moved_horizontally == 0:
             return False
-        if move_horizontally:
-            for i in range(1, abs(amount)):
-                if Piece.chess_board[self.vertical_axis][self.horizontal_axis + (i * (amount // abs(amount)))] == 0:
+        # if the piece has moved in both a vertical and horizontal direction
+        elif amount_moved_vertically != 0 and amount_moved_horizontally != 0:
+            return False
+        # then the piece moves in the horizontal direction (vertical destination = current vertical)
+        if amount_moved_vertically == 0:
+            # finds the direction of movement for the piece
+            horizontal_direction = amount_moved_horizontally // abs(amount_moved_horizontally)
+            # checks iof the coast is clear
+            for i in range(1, abs(amount_moved_horizontally)):
+                if Piece.chess_board[self.vertical_axis][self.horizontal_axis + (i * horizontal_direction)] == 0:
                     continue
                 else:
                     return False
-            if Piece.chess_board[self.vertical_axis][self.horizontal_axis + amount] == 0:
+            if Piece.chess_board[self.vertical_axis][horizontal_destination] == 0:
                 return True
-            elif Piece.chess_board[self.vertical_axis][self.horizontal_axis + amount].color != self.color:
+            elif Piece.chess_board[self.vertical_axis][horizontal_destination].color != self.color:
                 # this will make the opponent_pieces variable black, if color is true (we are white), else opponent_pieces will be white (we are black)
                 opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[self.vertical_axis][self.horizontal_axis + amount])
+                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
                 return True
             else:
                 return False
-
-        else:
-            for i in range(1, abs(amount)):
-                if Piece.chess_board[self.vertical_axis + (i * (amount // abs(amount)))][self.horizontal_axis] == 0:
+        # then the piece moves in the vertical direction (horizontal destination = current horizontal)
+        elif amount_moved_horizontally == 0:
+            vertical_direction = amount_moved_vertically // abs(amount_moved_vertically)
+            # checks iof the coast is clear
+            for i in range(1, abs(amount_moved_vertically)):
+                if Piece.chess_board[self.vertical_axis + (i * vertical_direction)][self.horizontal_axis] == 0:
                     continue
                 else:
                     return False
-            if Piece.chess_board[self.vertical_axis + amount][self.horizontal_axis] == 0:
+            if Piece.chess_board[vertical_destination][self.horizontal_axis] == 0:
                 return True
-            elif Piece.chess_board[self.vertical_axis + amount][self.horizontal_axis].color != self.color:
+            elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
                 # remove peace from other player's list
                 opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[self.vertical_axis + amount][self.horizontal_axis])
+                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
                 return True
             else:
                 return False
+        # if we get here we had a problem!
+        else: return False
 
     def valid_knight_move(self, vertical_direction: int, horizontal_direction: int) -> bool:
         new_vertical = self.vertical_axis + vertical_direction

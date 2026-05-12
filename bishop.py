@@ -7,17 +7,16 @@ class Bishop(Piece):
         super().__init__(name = name, vertical_axis= vertical_axis, horizontal_axis = horizontal_axis, value = value, color = color)
 
 
-    def move(self, vertical_direction: int, horizontal_direction: int) -> bool:
-       if (0 <= vertical_direction + self.vertical_axis < 8) and (0 <= horizontal_direction + self.horizontal_axis < 8):
-           check_if_valid = self.valid_move_diagonal(vertical_direction=vertical_direction,
-                                                     horizontal_direction=horizontal_direction)
-           if check_if_valid:
-               amount_move = abs(vertical_direction)
-               vertical_index = self.vertical_axis + (abs(amount_move) * (vertical_direction // abs(vertical_direction)))
-               horizontal_index = self.horizontal_axis + (abs(amount_move) * (horizontal_direction // abs(horizontal_direction)))
-               self.place_piece(vertical_desired=vertical_index, horizontal_desired=horizontal_index)
+    def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
+        # check that the vertical and horizontal destination are on the board
+       if (0 <= vertical_destination_int < 8)  and (0 <= horizontal_destination_letter < 8):
+           # if the desired destination is attainable
+           is_valid_move = self.valid_move_diagonal(vertical_destination=vertical_destination_int,
+                                                     horizontal_destination=horizontal_destination_letter)
+           if is_valid_move:
+               self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
             # returns weather the move is valid!
-           return check_if_valid
+           return is_valid_move
        # if we reach here we know the move isn't valid!
        return False
 

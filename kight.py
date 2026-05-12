@@ -5,8 +5,8 @@ class Knight(Piece):
         # calling the super constructor
         super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value, color=color)
 
-    def move(self, vertical_direction: int, horizontal_direction: int) -> bool:
-        good_move = self.valid_knight_move(vertical_direction, horizontal_direction)
+    def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
+        good_move = self.valid_knight_move(vertical_destination_int, horizontal_destination_letter)
         if good_move:
-            self.place_piece(vertical_desired= self.vertical_axis + vertical_direction, horizontal_desired= self.horizontal_axis + horizontal_direction)
+            self.place_piece(vertical_desired=self.vertical_axis + vertical_destination_int, horizontal_desired=self.horizontal_axis + horizontal_destination_letter)
         return good_move
