@@ -140,32 +140,40 @@ class Piece(ABC):
         # if we get here then there was an input error
         return False
 
-    def valid_move_pawn(self, vertical_direction: int, horizontal_direction: int) -> bool:
+    def valid_move_pawn(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        #finding how much the total movement is
+        vertical_movement = vertical_destination - self.vertical_axis
+        horizontal_movement = horizontal_destination - self.horizontal_axis
 
+        #deciding which direction the piece can move based on color
+        # NOTE if self.color is true we are on white team
         valid_direction = -1 if self.color else 1
-        # trying to move outside the board!
-        if not (0 <= self.vertical_axis + vertical_direction  < 8) and (0 <= self.horizontal_axis + horizontal_direction < 8):
-            return False
 
-        #normal forward movement (1 direction forward)!
-        if ((vertical_direction == valid_direction and horizontal_direction == 0)
-                and (Piece.chess_board[self.vertical_axis + vertical_direction][self.horizontal_axis + horizontal_direction] == 0)):
-                return True
-        # first movement (can move two forward)!
-        elif (vertical_direction == (2*valid_direction) and horizontal_direction == 0 and self.first_move
-              and (Piece.chess_board[self.vertical_axis + vertical_direction][self.horizontal_axis] == 0)
-              and (Piece.chess_board[self.vertical_axis + (vertical_direction//2)][self.horizontal_axis] == 0)):
-            return True
-        # if we are trying to capture!
-        elif vertical_direction == valid_direction and abs(horizontal_direction) == 1:
-            # there is no piece to take, or the piece is on the same team!
-            if ((Piece.chess_board[self.vertical_axis + vertical_direction][self.horizontal_axis + horizontal_direction] == 0)
-                    or
-                    Piece.chess_board[self.vertical_axis + vertical_direction][self.horizontal_axis + horizontal_direction].color == self.color):
+        # if the pawn moves in its traditional manner (moves one square vertically)
+        if vertical_movement == valid_direction and horizontal_movement == 0:
+            return Piece.chess_board[vertical_destination][horizontal_destination] == 0
+
+        # in the case it's the pawn first move it can jump two pieces forward NOTE the two square need to be empty!
+        elif vertical_movement == (2*valid_direction) and horizontal_movement == 0 and self.first_move:
+            #checking if both square are free!
+            return (Piece.chess_board[vertical_destination][horizontal_destination] == 0
+                    and Piece.chess_board[self.vertical_axis + valid_direction][horizontal_destination] == 0)
+
+        #this is when a pawn wants to capture its diagonal counterpart
+        elif vertical_movement == valid_direction and abs(horizontal_movement) == 1:
+            # if the diagonal square is not occupied by an enemy piece
+            if (Piece.chess_board[vertical_destination][horizontal_destination] == 0
+                or Piece.chess_board[vertical_destination + valid_direction][horizontal_destination].color == self.color):
                 return False
+            # the diagonal piece is occupied by an enemy piece
             else:
-                opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set=opponent_pieces,
-                              killed_piece=Piece.chess_board[self.vertical_axis + vertical_direction][self.horizontal_axis + self.horizontal_axis])
-                return True
-        else: return False
+                opponent_set = Piece.black_player_pieces if self.color else Piece.white_player_pieces
+                # removes that piece from the set of the opponent (eliminating it from the game)
+                capture_piece(opponent_set=opponent_set, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
+        # if we get here the move is not valid!
+        return False
+
+
+
+
+

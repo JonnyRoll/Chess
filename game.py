@@ -104,7 +104,9 @@ def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piec
 start_game()
 print_board()
 move_piece(2,2,False, 'K1_B')
-move_piece(2,0,False,'P4_B')
+move_piece(3,0,False,'P0_B')
+move_piece(4,0,True,'P0_W')
+
 
 print()
 print()

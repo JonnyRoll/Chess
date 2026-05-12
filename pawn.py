@@ -9,9 +9,11 @@ class Pawn(Piece):
 
     # this is the move method!
     def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
-        good_move = self.valid_move_pawn(vertical_destination_int, horizontal_destination_letter)
-        if good_move:
+        # checking if the move is valid
+        valid_move = self.valid_move_pawn(vertical_destination_int, horizontal_destination_letter)
+        if valid_move:
             self.first_move = False
-            self.place_piece(vertical_desired=self.vertical_axis + vertical_destination_int, horizontal_desired=self.horizontal_axis + horizontal_destination_letter)
+            #placing the piece is the right position!
+            self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
 
-        return good_move
+        return valid_move
