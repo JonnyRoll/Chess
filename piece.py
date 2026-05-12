@@ -111,39 +111,34 @@ class Piece(ABC):
         # if we get here we had a problem!
         else: return False
 
-    def valid_knight_move(self, vertical_direction: int, horizontal_direction: int) -> bool:
-        new_vertical = self.vertical_axis + vertical_direction
-        new_horizontal = self.horizontal_axis + horizontal_direction
-        # in the case that 0,0 is entered (not a move) or if the move does not make sense for a knight
-        if vertical_direction == 0 or horizontal_direction == 0:
+    def valid_knight_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        # how much movement the piece has in each direction
+        vertical_movement = vertical_destination - self.vertical_axis
+        horizontal_movement = horizontal_destination - self.horizontal_axis
+
+        # if we are trying to put the piece outside the board
+        if not(0 <= vertical_destination < 8) and not(0 <= horizontal_destination < 8):
             return False
 
-        elif ((abs(vertical_direction) != 2 or abs(horizontal_direction) != 1)
-              and
-              (abs(vertical_direction) != 1 or abs(horizontal_direction) != 2)) :
+        # if either direction is zero the L shape movement is not satisfied
+        elif vertical_movement == 0 or horizontal_movement == 0:
             return False
 
-
-        # if the position on the board would be invalid (using De Morgan law!) not (p and  q) = (not p) or (not q)
-        elif not ((0 <= new_vertical < 8) and  (0<= new_horizontal < 8)):
-            return False
-
-        # the user entered a valid number!
-        else:
-
-            # the position is empty on the board
-            if Piece.chess_board[new_vertical][new_horizontal] == 0:
+        # the L shape is satisfied
+        elif (abs(vertical_movement) == 2 and abs(horizontal_movement) == 1) or (abs(vertical_movement) == 1 and abs(horizontal_movement) == 2):
+            # the position is empty, and we can place the piece there with no extra action!
+            if Piece.chess_board[vertical_destination][horizontal_destination] == 0:
                 return True
-            # the position is filled by an opponent piece (need to remove it)
-            elif Piece.chess_board[new_vertical][new_horizontal].color != self.color:
+            # we must capture the piece from the other team before being able to place
+            elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
                 opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                vertical_index = new_vertical
-                horizontal_index = new_horizontal
-                capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_index][horizontal_index])
+                capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_destination][horizontal_destination])
                 return True
-            # the position is filled by a piece from the same team (color)
-            else:
-                return False
+            # the piece in the position is the same color as the piece we are currently trying to move
+            else: return False # Piece.chess_board[vertical_destination][horizontal_destination].color == self.color
+
+        # if we get here then there was an input error
+        return False
 
     def valid_move_pawn(self, vertical_direction: int, horizontal_direction: int) -> bool:
 

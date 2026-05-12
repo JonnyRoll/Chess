@@ -8,5 +8,6 @@ class Knight(Piece):
     def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
         good_move = self.valid_knight_move(vertical_destination_int, horizontal_destination_letter)
         if good_move:
-            self.place_piece(vertical_desired=self.vertical_axis + vertical_destination_int, horizontal_desired=self.horizontal_axis + horizontal_destination_letter)
+            self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
+
         return good_move

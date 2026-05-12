@@ -99,14 +99,11 @@ def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piec
             # uses the specific move method for the particular piece!
             return piece.move(vertical_dirct, horizontal_dirct)
 
-    else: return False
+    else:return False
 
 start_game()
 print_board()
-move_piece(2,2,False,'B1_B')
-move_piece(-3,-3,True,'B2_W')
-move_piece(-2,2,True,'B2_W')
-move_piece(2,1, False,'K1_B')
+move_piece(2,2,False, 'K1_B')
 move_piece(2,0,False,'P4_B')
 
 print()
