@@ -71,10 +71,23 @@ def start_game() -> None:
     creat_knights()
     creat_pawn()
 
+def adjust_visual(element) -> None:
+    if len(str(element)) == 1:
+        print(f'  {element}  ', end= " ")
+    elif len(str(element)) == 3:
+        print(f' {element} ' , end= " ")
+    elif len(str(element)) == 4:
+        print(f' {element}', end= " ")
+    else: print(element)
+
 
 def print_board() -> None:
     for i in range (8):
-        print(Piece.chess_board[i])
+        for j in range (8):
+            adjust_visual(Piece.chess_board[i][j])
+        print()
+
+
 
 # this function will move the called on piece in the desired direction piece
 def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piece_name: str) -> bool:
@@ -103,6 +116,7 @@ print()
 print()
 print('white pieces:', Piece.white_player_pieces)
 print('black pieces:', Piece.black_player_pieces)
+
 
 
 
