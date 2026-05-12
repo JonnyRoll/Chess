@@ -106,6 +106,7 @@ print_board()
 move_piece(2,2,False, 'K1_B')
 move_piece(3,0,False,'P0_B')
 move_piece(4,0,True,'P0_W')
+move_piece(3,4,False, 'K1_B')
 
 
 print()
