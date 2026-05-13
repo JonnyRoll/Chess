@@ -88,25 +88,49 @@ def print_board() -> None:
         print()
 
 
+# this will map the input from move piece to the correct square on the board
+def map_piece(horizontal_dirct:str, vertical_dirct:int) -> list:
+    # mapping the vertical axis (making the top index 0 instead of 8)
+    actual_vertical_index = abs(vertical_dirct - 8)
+    # all valid horizontal inputs
+    possible_horizontal_inputs = ['a','b','c','d','e','f','g','h']
+    # the actual index we want the horizontal axis to be!
+    actual_horizontal_index = 0
+
+    # iterating threw in order to find the matching letter
+    for letter in possible_horizontal_inputs:
+        if letter == horizontal_dirct :
+            # return the list of the correct indexes
+            return [actual_vertical_index, actual_horizontal_index]
+        # increments horizontal index (when letter inst matched)
+        actual_horizontal_index += 1
+
+    # in the case the horizontal direction char was not found
+    return [999, 999]
+
 
 # this function will move the called on piece in the desired direction piece
-def move_piece(vertical_dirct:int, horizontal_dirct:int, piece_color: bool, piece_name: str) -> bool:
-    piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
-    # the piece is in the desired set!
-    for piece in piece_set:
-        # if we found the piece
-        if piece.name == piece_name:
-            # uses the specific move method for the particular piece!
-            return piece.move(vertical_dirct, horizontal_dirct)
+def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int, piece_color: bool) -> bool:
+    #remap the input!
+        # note the index [0] = ACTUAL_VERTICAL_INDEX and  index[1] = ACTUAL_HORIZONTAL_INDEX
+    index_of_input = map_piece(horizontal_dirct = horizontal_dirct , vertical_dirct = vertical_dirct)
+    # checks if the indexes return to use a valid for the board
+    if 0 <= index_of_input[0] < 8 and 0 <= index_of_input[1] < 8:
+        print(index_of_input)
+        piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
+        # the piece is in the desired set!
+        for piece in piece_set:
+            # if we found the piece
+            if piece.name == piece_name:
+                # uses the specific move method for the particular piece!
+                return piece.move(index_of_input[0], index_of_input[1])
 
-    else:return False
+    return False
 
 start_game()
 print_board()
-move_piece(2,2,False, 'K1_B')
-move_piece(3,0,False,'P0_B')
-move_piece(4,0,True,'P0_W')
-move_piece(3,4,False, 'K1_B')
+move_piece('K1_B','c',6,False)
+
 
 
 print()
