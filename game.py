@@ -108,30 +108,40 @@ def map_piece(horizontal_dirct:str, vertical_dirct:int) -> list:
     # in the case the horizontal direction char was not found
     return [999, 999]
 
-
+# this will start with white (as it is always the first to move)
+color_to_move = True
 # this function will move the called on piece in the desired direction piece
 def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int) -> bool:
     #remap the input!
         # note the index [0] = ACTUAL_VERTICAL_INDEX and  index[1] = ACTUAL_HORIZONTAL_INDEX
     index_of_input = map_piece(horizontal_dirct = horizontal_dirct , vertical_dirct = vertical_dirct)
     # checks if the indexes return to use a valid for the board
+
     if 0 <= index_of_input[0] < 8 and 0 <= index_of_input[1] < 8:
-        #Note true is when the piece is white, false when the piece is black
-        piece_color = True if piece_name[-1] == 'W' else False
+        # this defines that we are using a global variable! (color_to_move)
+        global color_to_move
+        # Note true is when the piece is white, false when the piece is black
+        piece_color = True if color_to_move else False
         piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
+        #finding the full name! (proud of this one)
+        full_piece_name = f'{piece_name}_W' if color_to_move else f'{piece_name}_B'
+        # flipping the to the other set (first switch is to black)
+        color_to_move = not color_to_move
         # the piece is in the desired set!
         for piece in piece_set:
             # if we found the piece
-            if piece.name == piece_name:
+            if piece.name == full_piece_name:
                 # uses the specific move method for the particular piece!
                 return piece.move(index_of_input[0], index_of_input[1])
 
     return False
 
+
+
 start_game()
 print_board()
-move_piece('K1_B','c',6)
-move_piece('K1_W', 'c',3)
+move_piece('K1','c',3)
+move_piece('K1', 'c',6)
 
 
 
