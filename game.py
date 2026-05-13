@@ -6,7 +6,7 @@ from kight import Knight
 from pawn import Pawn
 
 def create_pieces(object:Piece) -> None:
-    # this is the same as sating we will assign set de  penfing on how the colout (very clean!)
+    # this is the same as sating we will assign set de pending on how the colout (very clean!)
     player_set = Piece.white_player_pieces if object.color else Piece.black_player_pieces
     player_set.add(object)
     place_pieces_on_board(object)
