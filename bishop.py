@@ -2,9 +2,9 @@ from piece import Piece
 
 # this is how you do inheritance in python
 class Bishop(Piece):
-    def __init__(self, name:str , vertical_axis: int, horizontal_axis: int, value: int, color: bool):
+    def __init__(self, name:str , vertical_axis: int, horizontal_axis: int, value: int):
         # calling the super constructor
-        super().__init__(name = name, vertical_axis= vertical_axis, horizontal_axis = horizontal_axis, value = value, color = color)
+        super().__init__(name = name, vertical_axis= vertical_axis, horizontal_axis = horizontal_axis, value = value)
 
 
     def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:

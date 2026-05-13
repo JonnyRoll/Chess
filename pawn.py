@@ -2,9 +2,9 @@ from piece import Piece
 
 class Pawn(Piece):
     first_move = True
-    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int, value: int, color: bool):
+    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int, value: int):
         # calling the super constructor
-        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value,color=color)
+        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value)
 
 
     # this is the move method!

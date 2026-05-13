@@ -9,12 +9,12 @@ class Piece(ABC):
     chess_board = [[0] * 8 for i in range(8)]
     black_player_pieces = set()
     white_player_pieces = set()
-    def __init__(self, name:str ,vertical_axis:int, horizontal_axis:int, value:int, color:bool):
+    def __init__(self, name:str ,vertical_axis:int, horizontal_axis:int, value:int):
         self.name = name
         self.vertical_axis = vertical_axis
         self.horizontal_axis = horizontal_axis
         self.value = value
-        self.color = color
+        self.color = True if name[-1] == 'W' else False
 
     def __str__(self):
         return self.name

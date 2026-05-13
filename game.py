@@ -14,48 +14,48 @@ def create_pieces(object:Piece) -> None:
 
 def create_bishops() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Bishop(name='B1_W', vertical_axis=7, horizontal_axis=2, value=3, color=True))
+    create_pieces(Bishop(name='B1_W', vertical_axis=7, horizontal_axis=2, value=3))
     # if the piece has a color = true then it's a white piece
-    create_pieces(Bishop(name='B2_W', vertical_axis=7, horizontal_axis=5, value=3, color=True))
+    create_pieces(Bishop(name='B2_W', vertical_axis=7, horizontal_axis=5, value=3))
 
     # if the piece has a color = false then it's a black piece
-    create_pieces(Bishop(name='B1_B', vertical_axis=0, horizontal_axis=2, value=3, color=False))
+    create_pieces(Bishop(name='B1_B', vertical_axis=0, horizontal_axis=2, value=3))
     # if the piece has a color = false then it's a black piece
-    create_pieces(Bishop(name='B2_B', vertical_axis=0, horizontal_axis=5, value=3, color=False))
+    create_pieces(Bishop(name='B2_B', vertical_axis=0, horizontal_axis=5, value=3))
 
 
 def creat_rooks() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Rook(name='R1_W', vertical_axis=7, horizontal_axis=0, value=5, color=True))
+    create_pieces(Rook(name='R1_W', vertical_axis=7, horizontal_axis=0, value=5))
     # if the piece has a color = true then it's a white piece
-    create_pieces(Rook(name='R2_W', vertical_axis=7, horizontal_axis=7, value=5, color=True))
+    create_pieces(Rook(name='R2_W', vertical_axis=7, horizontal_axis=7, value=5))
 
 
     # if the piece has a color = false then it's a black piece
-    create_pieces(Rook(name='R1_B', vertical_axis=0, horizontal_axis=0, value=5, color=False))
+    create_pieces(Rook(name='R1_B', vertical_axis=0, horizontal_axis=0, value=5))
     # if the piece has a color = false then it's a black piece
-    create_pieces(Rook(name='R2_B', vertical_axis=0, horizontal_axis=7, value=5, color=False))
+    create_pieces(Rook(name='R2_B', vertical_axis=0, horizontal_axis=7, value=5))
 
 
 def creat_queens() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Queen(name='Q_W', vertical_axis=7, horizontal_axis=3, value=8, color=True))
+    create_pieces(Queen(name='Q_W', vertical_axis=7, horizontal_axis=3, value=8))
     # if the piece has color = false then it is a black piece
-    create_pieces(Queen(name='Q_B', vertical_axis=0, horizontal_axis=3, value=8, color=False))
+    create_pieces(Queen(name='Q_B', vertical_axis=0, horizontal_axis=3, value=8))
 
 def creat_knights() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Knight(name = 'K1_W', vertical_axis=7, horizontal_axis=1, value=3, color=True))
-    create_pieces(Knight(name='K2_W', vertical_axis=7, horizontal_axis=6, value=3, color=True))
+    create_pieces(Knight(name = 'K1_W', vertical_axis=7, horizontal_axis=1, value=3))
+    create_pieces(Knight(name='K2_W', vertical_axis=7, horizontal_axis=6, value=3))
 
     # # if the piece has color = false then it is a black piece
-    create_pieces(Knight(name = 'K1_B', vertical_axis=0, horizontal_axis=1, value=3, color=False))
-    create_pieces(Knight(name = 'K2_B', vertical_axis=0, horizontal_axis=6, value=3, color=False))
+    create_pieces(Knight(name = 'K1_B', vertical_axis=0, horizontal_axis=1, value=3))
+    create_pieces(Knight(name = 'K2_B', vertical_axis=0, horizontal_axis=6, value=3))
 
 def creat_pawn() -> None:
     for i in range(8):
-        create_pieces(Pawn(name = f'P{i}_W', vertical_axis=6, horizontal_axis=i, value=1, color=True))
-        create_pieces(Pawn(name = f'P{i}_B', vertical_axis=1, horizontal_axis=i, value=1, color=False))
+        create_pieces(Pawn(name = f'P{i}_W', vertical_axis=6, horizontal_axis=i, value=1))
+        create_pieces(Pawn(name = f'P{i}_B', vertical_axis=1, horizontal_axis=i, value=1))
 
 
 # placing the chess pieces on the board!
@@ -110,13 +110,14 @@ def map_piece(horizontal_dirct:str, vertical_dirct:int) -> list:
 
 
 # this function will move the called on piece in the desired direction piece
-def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int, piece_color: bool) -> bool:
+def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int) -> bool:
     #remap the input!
         # note the index [0] = ACTUAL_VERTICAL_INDEX and  index[1] = ACTUAL_HORIZONTAL_INDEX
     index_of_input = map_piece(horizontal_dirct = horizontal_dirct , vertical_dirct = vertical_dirct)
     # checks if the indexes return to use a valid for the board
     if 0 <= index_of_input[0] < 8 and 0 <= index_of_input[1] < 8:
-        print(index_of_input)
+        #Note true is when the piece is white, false when the piece is black
+        piece_color = True if piece_name[-1] == 'W' else False
         piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
         # the piece is in the desired set!
         for piece in piece_set:
@@ -129,7 +130,9 @@ def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int, piece
 
 start_game()
 print_board()
-move_piece('K1_B','c',6,False)
+move_piece('K1_B','c',6)
+move_piece('K1_W', 'c',3)
+
 
 
 
