@@ -142,6 +142,16 @@ start_game()
 print_board()
 move_piece('K1','c',3)
 move_piece('K1', 'c',6)
+move_piece('P1', 'b',4)
+move_piece('P0', 'a',5)
+move_piece('P1', 'a',5)
+move_piece('P1', 'b',5)
+move_piece('B1', 'a',3)
+move_piece('P1', 'b',4)
+move_piece('B1', 'b',4)
+
+
+
 
 
 

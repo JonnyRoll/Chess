@@ -163,13 +163,14 @@ class Piece(ABC):
         elif vertical_movement == valid_direction and abs(horizontal_movement) == 1:
             # if the diagonal square is not occupied by an enemy piece
             if (Piece.chess_board[vertical_destination][horizontal_destination] == 0
-                or Piece.chess_board[vertical_destination + valid_direction][horizontal_destination].color == self.color):
+                or Piece.chess_board[vertical_destination][horizontal_destination].color == self.color):
                 return False
             # the diagonal piece is occupied by an enemy piece
             else:
                 opponent_set = Piece.black_player_pieces if self.color else Piece.white_player_pieces
                 # removes that piece from the set of the opponent (eliminating it from the game)
                 capture_piece(opponent_set=opponent_set, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
+                return True
         # if we get here the move is not valid!
         return False
 
