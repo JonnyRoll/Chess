@@ -70,6 +70,19 @@ def start_game() -> None:
     creat_queens()
     creat_knights()
     creat_pawn()
+    the_move_decide = True
+    while(True):
+        whose_moving_str = "It is whites tern to move!" if the_move_decide else "It is blacks tern to move!"
+        print(whose_moving_str)
+        whose_moving_str = not whose_moving_str
+        the_move = input("What is your move? (uses spaces to separate), input R to resin: ")
+        if the_move == "R":
+            print("Game Over")
+            break
+        the_move = the_move.split()
+        move_piece(the_move[0], the_move[1], int(the_move[2]))
+        print("here is the new board")
+        print_board()
 
 def adjust_visual(element) -> None:
     if len(str(element)) == 1:
