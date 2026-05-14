@@ -71,18 +71,23 @@ def start_game() -> None:
     creat_knights()
     creat_pawn()
     the_move_decide = True
+    print_board()
     while(True):
         whose_moving_str = "It is whites tern to move!" if the_move_decide else "It is blacks tern to move!"
         print(whose_moving_str)
         the_move = input("What is your move? (uses spaces to separate), input R to resin: ")
         if the_move.upper() == "R":
-            print("Game Over")
+            reside = 'White reside' if the_move_decide else 'Black reside'
+            print(reside)
             break
         try:
-            move_piece(the_move[:-2], the_move[-2], int(the_move[-1]))
-            the_move_decide = not the_move_decide
-            print("here is the new board")
-            print_board()
+            valid_move = move_piece(the_move[:-2], the_move[-2], int(the_move[-1]))
+            if valid_move:
+                the_move_decide = not the_move_decide
+                print("here is the new board")
+                print_board()
+            else:
+                print("Invalid move!")
         except :
             print("Invalid move!, try again")
 
@@ -155,30 +160,7 @@ def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int) -> bo
 
 
 start_game()
-print_board()
-move_piece('K1','c',3)
-move_piece('K1', 'c',6)
-move_piece('P1', 'b',4)
-move_piece('P0', 'a',5)
-move_piece('P1', 'a',5)
-move_piece('P1', 'b',5)
-move_piece('B1', 'a',3)
-move_piece('P1', 'b',4)
-move_piece('B1', 'b',4)
 
-
-
-
-
-
-
-print()
-print()
-print_board()
-print()
-print()
-print('white pieces:', Piece.white_player_pieces)
-print('black pieces:', Piece.black_player_pieces)
 
 
 
