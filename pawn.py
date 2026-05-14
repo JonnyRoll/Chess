@@ -7,6 +7,8 @@ class Pawn(Piece):
         super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value)
 
 
+
+
     # this is the move method!
     def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
         # checking if the move is valid
