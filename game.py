@@ -94,10 +94,12 @@ def start_game() -> None:
 
 def adjust_visual(element) -> None:
     if len(str(element)) == 1:
-        print(f'  {element}  ', end= " ")
+        print(f'   {element}  ', end= " ")
     elif len(str(element)) == 3:
-        print(f' {element} ' , end= " ")
+        print(f'  {element} ' , end= " ")
     elif len(str(element)) == 4:
+        print(f' {element} ', end= " ")
+    elif len(str(element)) == 5:
         print(f' {element}', end= " ")
     else: print(element)
 
