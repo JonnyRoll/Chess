@@ -27,9 +27,19 @@ class Piece(ABC):
     def move(self, vertical_destination_int: int, horizontal_destination_letter: int):
         pass
 
+    @abstractmethod
+    def valid_move(self, vertical_destination: int, horizontal_destination : int) -> bool:
+        pass
+
+
     def place_piece(self, vertical_desired:int, horizontal_desired:int) -> None:
         # removing the piece from old index
         Piece.chess_board[self.vertical_axis][self.horizontal_axis] = 0
+        # in the case that we are captaining a piece when moving
+        if Piece.chess_board[vertical_desired][horizontal_desired] != 0 and Piece.chess_board[vertical_desired][horizontal_desired].color != self.color:
+            opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
+            capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_desired][horizontal_desired])
+        # placing our piece down
         Piece.chess_board[vertical_desired][horizontal_desired] = self
         # updating the position values
         self.vertical_axis = vertical_desired
@@ -54,14 +64,12 @@ class Piece(ABC):
         if Piece.chess_board[vertical_destination][horizontal_destination] == 0:
             return True
         elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
-            opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-            capture_piece(opponent_set=opponent_pieces, killed_piece= Piece.chess_board[vertical_destination][horizontal_destination])
             return True
         else:
             return False
 
 
-    # improve this to one path!
+    # improve this to one path! # dont need this method!
     def valid_move_vert_and_horz(self, vertical_destination: int, horizontal_destination: int) -> bool:
         amount_moved_vertically = vertical_destination - self.vertical_axis
         amount_moved_horizontally = horizontal_destination - self.horizontal_axis
@@ -84,9 +92,6 @@ class Piece(ABC):
             if Piece.chess_board[self.vertical_axis][horizontal_destination] == 0:
                 return True
             elif Piece.chess_board[self.vertical_axis][horizontal_destination].color != self.color:
-                # this will make the opponent_pieces variable black, if color is true (we are white), else opponent_pieces will be white (we are black)
-                opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
                 return True
             else:
                 return False
@@ -102,79 +107,89 @@ class Piece(ABC):
             if Piece.chess_board[vertical_destination][self.horizontal_axis] == 0:
                 return True
             elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
-                # remove peace from other player's list
-                opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set = opponent_pieces, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
                 return True
             else:
                 return False
         # if we get here we had a problem!
         else: return False
 
-    def valid_knight_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
-        # how much movement the piece has in each direction
-        vertical_movement = vertical_destination - self.vertical_axis
-        horizontal_movement = horizontal_destination - self.horizontal_axis
 
-        # if we are trying to put the piece outside the board
-        if not(0 <= vertical_destination < 8) and not(0 <= horizontal_destination < 8):
-            return False
 
-        # if either direction is zero the L shape movement is not satisfied
-        elif vertical_movement == 0 or horizontal_movement == 0:
-            return False
 
-        # the L shape is satisfied
-        elif (abs(vertical_movement) == 2 and abs(horizontal_movement) == 1) or (abs(vertical_movement) == 1 and abs(horizontal_movement) == 2):
-            # the position is empty, and we can place the piece there with no extra action!
-            if Piece.chess_board[vertical_destination][horizontal_destination] == 0:
-                return True
-            # we must capture the piece from the other team before being able to place
-            elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
-                opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_destination][horizontal_destination])
-                return True
-            # the piece in the position is the same color as the piece we are currently trying to move
-            else: return False # Piece.chess_board[vertical_destination][horizontal_destination].color == self.color
 
-        # if we get here then there was an input error
-        return False
 
-    def valid_move_pawn(self, vertical_destination: int, horizontal_destination: int) -> bool:
-        #finding how much the total movement is
-        vertical_movement = vertical_destination - self.vertical_axis
-        horizontal_movement = horizontal_destination - self.horizontal_axis
 
-        #deciding which direction the piece can move based on color
-        # NOTE if self.color is true we are on white team
-        valid_direction = -1 if self.color else 1
 
-        # if the pawn moves in its traditional manner (moves one square vertically)
-        if vertical_movement == valid_direction and horizontal_movement == 0:
-            return Piece.chess_board[vertical_destination][horizontal_destination] == 0
 
-        # in the case it's the pawn first move it can jump two pieces forward NOTE the two square need to be empty!
-        elif vertical_movement == (2*valid_direction) and horizontal_movement == 0 and self.first_move:
-            #checking if both square are free!
-            return (Piece.chess_board[vertical_destination][horizontal_destination] == 0
-                    and Piece.chess_board[self.vertical_axis + valid_direction][horizontal_destination] == 0)
 
-        #this is when a pawn wants to capture its diagonal counterpart
-        elif vertical_movement == valid_direction and abs(horizontal_movement) == 1:
-            # if the diagonal square is not occupied by an enemy piece
-            if (Piece.chess_board[vertical_destination][horizontal_destination] == 0
-                or Piece.chess_board[vertical_destination][horizontal_destination].color == self.color):
 
-                return False
-            # the diagonal piece is occupied by an enemy piece
-            else:
-                opponent_set = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-                # removes that piece from the set of the opponent (eliminating it from the game)
-                capture_piece(opponent_set=opponent_set, killed_piece = Piece.chess_board[vertical_destination][horizontal_destination])
-                return True
-        # if we get here the move is not valid!
-        return False
 
+
+
+
+
+
+# # this might not be needed at all lol
+#     def valid_knight_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+#         # how much movement the piece has in each direction
+#         vertical_movement = vertical_destination - self.vertical_axis
+#         horizontal_movement = horizontal_destination - self.horizontal_axis
+#
+#         # if we are trying to put the piece outside the board
+#         if not(0 <= vertical_destination < 8) and not(0 <= horizontal_destination < 8):
+#             return False
+#
+#         # if either direction is zero the L shape movement is not satisfied
+#         elif vertical_movement == 0 or horizontal_movement == 0:
+#             return False
+#
+#         # the L shape is satisfied
+#         elif (abs(vertical_movement) == 2 and abs(horizontal_movement) == 1) or (abs(vertical_movement) == 1 and abs(horizontal_movement) == 2):
+#             # the position is empty, and we can place the piece there with no extra action!
+#             if Piece.chess_board[vertical_destination][horizontal_destination] == 0:
+#                 return True
+#             # we must capture the piece from the other team before being able to place
+#             elif Piece.chess_board[vertical_destination][horizontal_destination].color != self.color:
+#                 return True
+#             # the piece in the position is the same color as the piece we are currently trying to move
+#             else: return False # Piece.chess_board[vertical_destination][horizontal_destination].color == self.color
+#
+#         # if we get here then there was an input error
+#         return False
+# # this might not be needed
+#     def valid_move_pawn(self, vertical_destination: int, horizontal_destination: int) -> bool:
+#         #finding how much the total movement is
+#         vertical_movement = vertical_destination - self.vertical_axis
+#         horizontal_movement = horizontal_destination - self.horizontal_axis
+#
+#         #deciding which direction the piece can move based on color
+#         # NOTE if self.color is true we are on white team
+#         valid_direction = -1 if self.color else 1
+#
+#         # if the pawn moves in its traditional manner (moves one square vertically)
+#         if vertical_movement == valid_direction and horizontal_movement == 0:
+#             return Piece.chess_board[vertical_destination][horizontal_destination] == 0
+#
+#         # in the case it's the pawn first move it can jump two pieces forward NOTE the two square need to be empty!
+#         elif vertical_movement == (2*valid_direction) and horizontal_movement == 0 and self.first_move:
+#             #checking if both square are free!
+#             return (Piece.chess_board[vertical_destination][horizontal_destination] == 0
+#                     and Piece.chess_board[self.vertical_axis + valid_direction][horizontal_destination] == 0)
+#
+#         #this is when a pawn wants to capture its diagonal counterpart
+#         elif vertical_movement == valid_direction and abs(horizontal_movement) == 1:
+#             # if the diagonal square is not occupied by an enemy piece
+#             if (Piece.chess_board[vertical_destination][horizontal_destination] == 0
+#                 or Piece.chess_board[vertical_destination][horizontal_destination].color == self.color):
+#
+#                 return False
+#             # the diagonal piece is occupied by an enemy piece
+#             else:
+#                 return True
+#         # if we get here the move is not valid!
+#         return False
+#
+#
 
 
 
