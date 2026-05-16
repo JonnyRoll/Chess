@@ -34,9 +34,9 @@ class Knight(Piece):
         # if we get here then there was an input error
         return False
 
-    def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
-        good_move = self.valid_move(vertical_destination_int, horizontal_destination_letter)
+    def move(self, vertical_destination_int: int, horizontal_destination: int) -> bool:
+        good_move = self.valid_move(vertical_destination_int, horizontal_destination)
         if good_move:
-            self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
+            self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
 
         return good_move

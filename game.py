@@ -4,6 +4,7 @@ from rook import Rook
 from bishop import Bishop
 from kight import Knight
 from pawn import Pawn
+from king import King
 
 def create_pieces(object:Piece) -> None:
     # this is the same as sating we will assign set de pending on how the colout (very clean!)
@@ -57,6 +58,10 @@ def creat_pawn() -> None:
         create_pieces(Pawn(name = f'P{i}_W', vertical_axis=6, horizontal_axis=i, value=1))
         create_pieces(Pawn(name = f'P{i}_B', vertical_axis=1, horizontal_axis=i, value=1))
 
+def creat_kings() -> None:
+    create_pieces(King(name= 'King_W', vertical_axis= 7, horizontal_axis= 4))
+    create_pieces(King(name='King_B', vertical_axis=0, horizontal_axis=4))
+
 
 # placing the chess pieces on the board!
 def place_pieces_on_board(object:Piece) -> None:
@@ -70,6 +75,7 @@ def start_game() -> None:
     creat_queens()
     creat_knights()
     creat_pawn()
+    creat_kings()
     the_move_decide = True
     print_board()
     while(True):
@@ -92,8 +98,8 @@ def start_game() -> None:
                 color_to_move = not color_to_move
             else:
                 print("Invalid move!")
-        except :
-            print("that piece does not exist!")
+        except Exception as e:
+            print(type(e).__name__, e)
 
 
 def adjust_visual(element) -> None:
@@ -105,7 +111,7 @@ def adjust_visual(element) -> None:
         print(f' {element} ', end= " ")
     elif len(str(element)) == 5:
         print(f' {element}', end= " ")
-    else: print(element)
+    else: print(element, end= " ")
 
 
 def print_board() -> None:
@@ -144,11 +150,27 @@ def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int) -> bo
     index_of_input = map_piece(horizontal_dirct = horizontal_dirct , vertical_dirct = vertical_dirct)
     # checks if the indexes return to use a valid for the board
 
+    # Note true is when the piece is white, false when the piece is black
+    piece_color = True if color_to_move else False
+    piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
+
+    # checking that the king isn't in check.
+    the_king_name = 'King_W' if piece_color else 'King_B'
+
+    # finds the king piece and stores it in the king variable
+    for piece in piece_set:
+        if piece.name == the_king_name:
+            king = piece
+            break
+
+    if king.in_check(king.vertical_axis, king.horizontal_axis):
+        print('the king is in check and must be protected!')
+        return False
+
+
     if 0 <= index_of_input[0] < 8 and 0 <= index_of_input[1] < 8:
 
-        # Note true is when the piece is white, false when the piece is black
-        piece_color = True if color_to_move else False
-        piece_set = Piece.white_player_pieces if piece_color else Piece.black_player_pieces
+
         #finding the full name! (proud of this one)
         full_piece_name = f'{piece_name}_W' if color_to_move else f'{piece_name}_B'
         # the piece is in the desired set!

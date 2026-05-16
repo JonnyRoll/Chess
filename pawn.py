@@ -103,18 +103,18 @@ class Pawn(Piece):
         return False
 
     # this is the move method!
-    def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
+    def move(self, vertical_destination: int, horizontal_destination: int) -> bool:
         # checking if the move is valid
-        valid_move = self.valid_move(vertical_destination_int, horizontal_destination_letter)
+        valid_move = self.valid_move(vertical_destination, horizontal_destination)
 
         if valid_move:
             self.first_move = False
             # placing the piece is the right position!
-            self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
+            self.place_piece(vertical_desired=vertical_destination, horizontal_desired=horizontal_destination)
 
             # if he pawns has reached the end of the board (promotion!)
             reached_end = 0 if self.color else 7
-            if vertical_destination_int == reached_end:
+            if vertical_destination == reached_end:
                 self.promote()
 
         return valid_move

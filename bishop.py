@@ -11,14 +11,14 @@ class Bishop(Piece):
     def valid_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
         return Piece.valid_move_diagonal(self, vertical_destination=vertical_destination, horizontal_destination=horizontal_destination)
 
-    def move(self, vertical_destination_int: int, horizontal_destination_letter: int) -> bool:
+    def move(self, vertical_destination_int: int, horizontal_destination: int) -> bool:
         # check that the vertical and horizontal destination are on the board
-       if (0 <= vertical_destination_int < 8)  and (0 <= horizontal_destination_letter < 8):
+       if (0 <= vertical_destination_int < 8)  and (0 <= horizontal_destination < 8):
            # if the desired destination is attainable
            is_valid_move = self.valid_move(vertical_destination=vertical_destination_int,
-                                                     horizontal_destination=horizontal_destination_letter)
+                                           horizontal_destination=horizontal_destination)
            if is_valid_move:
-               self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
+               self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
             # returns weather the move is valid!
            return is_valid_move
        # if we reach here we know the move isn't valid!

@@ -24,7 +24,7 @@ class Piece(ABC):
 
     # this is the abstract method!
     @abstractmethod
-    def move(self, vertical_destination_int: int, horizontal_destination_letter: int):
+    def move(self, vertical_destination_int: int, horizontal_destination: int):
         pass
 
     @abstractmethod
