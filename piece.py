@@ -164,6 +164,7 @@ class Piece(ABC):
             # if the diagonal square is not occupied by an enemy piece
             if (Piece.chess_board[vertical_destination][horizontal_destination] == 0
                 or Piece.chess_board[vertical_destination][horizontal_destination].color == self.color):
+
                 return False
             # the diagonal piece is occupied by an enemy piece
             else:

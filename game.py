@@ -81,7 +81,7 @@ def start_game() -> None:
             print(reside)
             break
         try:
-            valid_move = move_piece(the_move[:-2], the_move[-2], int(the_move[-1]))
+            valid_move = move_piece(the_move[:-2].upper(), the_move[-2].upper(), int(the_move[-1].upper()))
             if valid_move:
                 the_move_decide = not the_move_decide
                 print("here is the new board")
@@ -89,7 +89,7 @@ def start_game() -> None:
             else:
                 print("Invalid move!")
         except :
-            print("Invalid move!, try again")
+            print("that piece does not exist!")
 
 
 def adjust_visual(element) -> None:
@@ -114,7 +114,7 @@ def map_piece(horizontal_dirct:str, vertical_dirct:int) -> list:
     # mapping the vertical axis (making the top index 0 instead of 8)
     actual_vertical_index = abs(vertical_dirct - 8)
     # all valid horizontal inputs
-    possible_horizontal_inputs = ['a','b','c','d','e','f','g','h']
+    possible_horizontal_inputs = ['A','B','C','D','E','F','G','H']
     # the actual index we want the horizontal axis to be!
     actual_horizontal_index = 0
 
@@ -157,9 +157,10 @@ def move_piece(piece_name: str,  horizontal_dirct:str, vertical_dirct:int) -> bo
 
     return False
 
+# using this so that if we use game file on a different .py file we don't run the game again
+if __name__ == "__main__":
+    start_game()
 
-
-start_game()
 
 
 

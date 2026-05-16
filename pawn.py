@@ -20,9 +20,9 @@ class Pawn(Piece):
         # importing here prevents the circular loop error
         from game import create_pieces, place_pieces_on_board
         print('which piece would you like to promote to?')
-        promote = input('queen, bishop, rook, knight')
         current_set = Piece.white_player_pieces if self.color else Piece.black_player_pieces
         while True:
+            promote = input('queen, bishop, rook, knight: ')
             match promote:
                 case 'queen':
                     from Queen import Queen
@@ -77,13 +77,13 @@ class Pawn(Piece):
         valid_move = self.valid_move_pawn(vertical_destination_int, horizontal_destination_letter)
         if valid_move:
             self.first_move = False
-            #placing the piece is the right position!
+
+            # placing the piece is the right position!
             self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination_letter)
-            # if the white piece reached the end
-            if self.color == True and self.vertical_axis == 0:
-                self.promote()
-            # if the black piece reached the end
-            elif self.color == False and self.vertical_axis == 7:
+
+            # if the pawn has reached the end of the board (promotion!)
+            reached_end = 0 if self.color else 7
+            if vertical_destination_int == reached_end:
                 self.promote()
 
         return valid_move
