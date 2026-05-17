@@ -1,5 +1,7 @@
 # this is the abstract method library!
 from abc import ABC, abstractmethod
+from asyncio.windows_events import NULL
+
 
 def capture_piece (opponent_set: set, killed_piece) -> None:
     opponent_set.remove(killed_piece)
@@ -32,18 +34,7 @@ class Piece(ABC):
         pass
 
 
-    def place_piece(self, vertical_desired:int, horizontal_desired:int) -> None:
-        # removing the piece from old index
-        Piece.chess_board[self.vertical_axis][self.horizontal_axis] = 0
-        # in the case that we are captaining a piece when moving
-        if Piece.chess_board[vertical_desired][horizontal_desired] != 0 and Piece.chess_board[vertical_desired][horizontal_desired].color != self.color:
-            opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-            capture_piece(opponent_set=opponent_pieces, killed_piece=Piece.chess_board[vertical_desired][horizontal_desired])
-        # placing our piece down
-        Piece.chess_board[vertical_desired][horizontal_desired] = self
-        # updating the position values
-        self.vertical_axis = vertical_desired
-        self.horizontal_axis = horizontal_desired
+
 
     def valid_move_diagonal(self, vertical_destination: int, horizontal_destination: int) -> bool:
         amount_moved_vertical = vertical_destination - self.vertical_axis
@@ -114,7 +105,76 @@ class Piece(ABC):
         else: return False
 
 
+    def place_piece(self, vertical_desired: int, horizontal_desired: int) -> bool:
+        # removing the piece from old index
+        Piece.chess_board[self.vertical_axis][self.horizontal_axis] = 0
+        # storing old indexes
+        old_vertical = self.vertical_axis
+        old_horizontal = self.horizontal_axis
+        opponent_pieces = Piece.black_player_pieces if self.color else Piece.white_player_pieces
+        # in the case that we are captaining a piece when moving
+        captured_a_piece = False
+        temp = 0
+        if Piece.chess_board[vertical_desired][horizontal_desired] != 0 and Piece.chess_board[vertical_desired][horizontal_desired].color != self.color:
+            # store the opponent piece we are capturing in a temporary box!
+            captured_a_piece = True
+            temp = Piece.chess_board[vertical_desired][horizontal_desired]
+            capture_piece(opponent_set=opponent_pieces,killed_piece=Piece.chess_board[vertical_desired][horizontal_desired])
 
+        # placing our piece down
+        Piece.chess_board[vertical_desired][horizontal_desired] = self
+        # updating the position values
+        self.vertical_axis = vertical_desired
+        self.horizontal_axis = horizontal_desired
+
+        # must verier back to the old game state
+        if self.king_in_check():
+            print('not a valid move king is still in check!')
+            #place the piece back to original position!
+            Piece.chess_board[old_vertical][old_horizontal] = self
+            self.vertical_axis = old_vertical
+            self.horizontal_axis = old_horizontal
+
+            if captured_a_piece:
+                # adding the piece removed (captured back into the set)
+                opponent_pieces.add(temp)
+                # even though there are warnings this should always work!
+                Piece.chess_board[temp.vertical_axis][temp.horizontal_axis] = temp
+
+            # if no piece was captured!
+            else:
+                Piece.chess_board[vertical_desired][horizontal_desired] = 0
+            return False
+
+        return True
+
+
+
+
+    def current_king(self) -> Piece:
+        # finding the position of the current king
+        current_set = Piece.white_player_pieces if self.color else Piece.black_player_pieces
+        current_king = 'KING_W' if self.color else 'KING_B'
+        # this can be any item since it will be replaced with the king element
+        for piece in current_set:
+            if piece.name == current_king:
+                return piece
+
+            # if we get here there is a major problem!
+        print(f'{current_king} could not be found')
+        return None
+
+    def king_in_check(self) -> bool:
+        # deciding which sett is the enemy set!
+        opponents_set = Piece.black_player_pieces if self.color else Piece.white_player_pieces
+        king = self.current_king()
+        for piece in opponents_set:
+            # checks if the specific piece in the opponents set can reach the kings position, if so then the method will return true, indicating the king is in check
+            if piece.valid_move(king.vertical_axis, king.horizontal_axis):
+                return True
+
+        #this indicates the king is not in check!
+        return False
 
 
 

@@ -16,20 +16,6 @@ class King(Piece):
     def valid_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
         pass
 
-    def in_check(self, vertical_destination, horizontal_destination) -> bool:
-        # deciding which sett is the enemy set!
-
-        opponents_set = Piece.black_player_pieces if self.color else Piece.white_player_pieces
-        for piece in opponents_set:
-
-            # checks if the specific piece in the opponents set can reach the kings position, if so then the method will return true, indicating the king is in check
-            if piece.valid_move(vertical_destination, horizontal_destination):
-
-                return True
-
-
-        #this indicates the king is not in check!
-        return False
 
 
     def valid_move_king(self, vertical_destination: int, horizontal_destination: int) -> bool:

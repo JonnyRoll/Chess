@@ -25,16 +25,16 @@ class Queen(Piece):
         return False
 
 
-    def move(self, vertical_destination_int: int, horizontal_destination: int) -> bool :
+    def move(self, vertical_destination: int, horizontal_destination: int) -> bool :
 
         check_move = self.valid_move(vertical_destination,
                                      horizontal_destination)
         if check_move:
-            self.place_piece(vertical_desired=vertical_destination,
+            good_move = self.place_piece(vertical_desired=vertical_destination,
                              horizontal_desired=horizontal_destination)
-            return check_move
+            return good_move
 
-        return False
+        return check_move
 
 
 

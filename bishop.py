@@ -18,11 +18,10 @@ class Bishop(Piece):
            is_valid_move = self.valid_move(vertical_destination=vertical_destination_int,
                                            horizontal_destination=horizontal_destination)
            if is_valid_move:
-               self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
-            # returns weather the move is valid!
-           return is_valid_move
+               good_move = self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
+               return good_move
        # if we reach here we know the move isn't valid!
-       return False
+       return is_valid_move
 
 
 
