@@ -149,8 +149,6 @@ class Piece(ABC):
         return True
 
 
-
-
     def current_king(self) -> Piece:
         # finding the position of the current king
         current_set = Piece.white_player_pieces if self.color else Piece.black_player_pieces
