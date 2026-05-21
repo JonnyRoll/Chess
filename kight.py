@@ -12,6 +12,13 @@ class Knight(Piece):
         super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=3)
 
     def valid_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        """
+        This function checks if the movement requested towards the knight is valid,
+        unlike other pieces the knight can jump over pieces, thus we must only check if the amount requested to move is a valid amount and if the square it wants to move to is available for it to move to
+        :param vertical_destination: the destination column of the knight
+        :param horizontal_destination: the destination row of the knight
+        :return: if the knight can move to that position
+        """
         # how much movement the piece has in each direction
         vertical_movement = vertical_destination - self.vertical_axis
         horizontal_movement = horizontal_destination - self.horizontal_axis
@@ -40,10 +47,16 @@ class Knight(Piece):
         # if we get here then there was an input error
         return False
 
-    def move(self, vertical_destination_int: int, horizontal_destination: int) -> bool:
-        valid_move = self.valid_move(vertical_destination_int, horizontal_destination)
+    def move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        """
+        This function is used to move the knight piece
+        :param vertical_destination: the vertical destination
+        :param horizontal_destination: the horizontal destination
+        :return: if we can flip to opponent's turn
+        """
+        valid_move = self.valid_move(vertical_destination, horizontal_destination)
         if valid_move:
-            good_move = self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
+            good_move = self.place_piece(vertical_desired=vertical_destination, horizontal_desired=horizontal_destination)
             return good_move
 
         return valid_move

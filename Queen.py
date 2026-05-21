@@ -42,7 +42,7 @@ class Queen(Piece):
         This function is used to move the queen piece
         :param vertical_destination: the vertical destination
         :param horizontal_destination: the horizontal destination
-        :return: if we can flip the turn to opponent
+        :return: if we can flip to opponent's turn
         """
         check_move = self.valid_move(vertical_destination,
                                      horizontal_destination)

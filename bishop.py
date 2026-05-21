@@ -27,7 +27,7 @@ class Bishop(Piece):
         This function is used to move the bishop piece
         :param vertical_destination: the vertical destination
         :param horizontal_destination: the horizontal destination
-        :return: if we can flip the turn to opponent
+        :return: if we can flip to opponent's turn
         """
 
         # check that the vertical and horizontal destination are on the board
