@@ -15,48 +15,48 @@ def create_pieces(object:Piece) -> None:
 
 def create_bishops() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Bishop(name='B1_W', vertical_axis=7, horizontal_axis=2, value=3))
+    create_pieces(Bishop(name='B1_W', vertical_axis=7, horizontal_axis=2))
     # if the piece has a color = true then it's a white piece
-    create_pieces(Bishop(name='B2_W', vertical_axis=7, horizontal_axis=5, value=3))
+    create_pieces(Bishop(name='B2_W', vertical_axis=7, horizontal_axis=5))
 
     # if the piece has a color = false then it's a black piece
-    create_pieces(Bishop(name='B1_B', vertical_axis=0, horizontal_axis=2, value=3))
+    create_pieces(Bishop(name='B1_B', vertical_axis=0, horizontal_axis=2))
     # if the piece has a color = false then it's a black piece
-    create_pieces(Bishop(name='B2_B', vertical_axis=0, horizontal_axis=5, value=3))
+    create_pieces(Bishop(name='B2_B', vertical_axis=0, horizontal_axis=5))
 
 
 def creat_rooks() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Rook(name='R1_W', vertical_axis=7, horizontal_axis=0, value=5))
+    create_pieces(Rook(name='R1_W', vertical_axis=7, horizontal_axis=0))
     # if the piece has a color = true then it's a white piece
-    create_pieces(Rook(name='R2_W', vertical_axis=7, horizontal_axis=7, value=5))
+    create_pieces(Rook(name='R2_W', vertical_axis=7, horizontal_axis=7))
 
 
     # if the piece has a color = false then it's a black piece
-    create_pieces(Rook(name='R1_B', vertical_axis=0, horizontal_axis=0, value=5))
+    create_pieces(Rook(name='R1_B', vertical_axis=0, horizontal_axis=0))
     # if the piece has a color = false then it's a black piece
-    create_pieces(Rook(name='R2_B', vertical_axis=0, horizontal_axis=7, value=5))
+    create_pieces(Rook(name='R2_B', vertical_axis=0, horizontal_axis=7))
 
 
 def creat_queens() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Queen(name='Q1_W', vertical_axis=7, horizontal_axis=3, value=8))
+    create_pieces(Queen(name='Q1_W', vertical_axis=7, horizontal_axis=3))
     # if the piece has color = false then it is a black piece
-    create_pieces(Queen(name='Q1_B', vertical_axis=0, horizontal_axis=3, value=8))
+    create_pieces(Queen(name='Q1_B', vertical_axis=0, horizontal_axis=3))
 
 def creat_knights() -> None:
     # if the piece has a color = true then it's a white piece
-    create_pieces(Knight(name = 'K1_W', vertical_axis=7, horizontal_axis=1, value=3))
-    create_pieces(Knight(name='K2_W', vertical_axis=7, horizontal_axis=6, value=3))
+    create_pieces(Knight(name = 'K1_W', vertical_axis=7, horizontal_axis=1))
+    create_pieces(Knight(name='K2_W', vertical_axis=7, horizontal_axis=6))
 
     # # if the piece has color = false then it is a black piece
-    create_pieces(Knight(name = 'K1_B', vertical_axis=0, horizontal_axis=1, value=3))
-    create_pieces(Knight(name = 'K2_B', vertical_axis=0, horizontal_axis=6, value=3))
+    create_pieces(Knight(name = 'K1_B', vertical_axis=0, horizontal_axis=1))
+    create_pieces(Knight(name = 'K2_B', vertical_axis=0, horizontal_axis=6))
 
 def creat_pawn() -> None:
     for i in range(8):
-        create_pieces(Pawn(name = f'P{i + 1}_W', vertical_axis=6, horizontal_axis=i, value=1))
-        create_pieces(Pawn(name = f'P{i + 1}_B', vertical_axis=1, horizontal_axis=i, value=1))
+        create_pieces(Pawn(name = f'P{i + 1}_W', vertical_axis=6, horizontal_axis=i))
+        create_pieces(Pawn(name = f'P{i + 1}_B', vertical_axis=1, horizontal_axis=i))
 
 def creat_kings() -> None:
     create_pieces(King(name= 'KING_W', vertical_axis= 7, horizontal_axis= 4))

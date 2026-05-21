@@ -1,9 +1,15 @@
 from piece import Piece
 
 class Knight(Piece):
-    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int, value: int):
+    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int):
+        """
+        This creates the knight piece
+        :param name: name of piece
+        :param vertical_axis: the column which the piece is in
+        :param horizontal_axis: the row which the piece is in
+        """
         # calling the super constructor
-        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value)
+        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=3)
 
     def valid_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
         # how much movement the piece has in each direction

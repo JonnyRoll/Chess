@@ -2,9 +2,15 @@ from piece import Piece
 
 class Queen(Piece):
 
-    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int, value: int):
+    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int):
+        """
+        This creates the queen  piece
+        :param name: name of piece
+        :param vertical_axis: the column which the piece is in
+        :param horizontal_axis: the row which the piece is in
+        """
         # calling the super constructor
-        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value)
+        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=9)
 
     def valid_move(self, vertical_destination, horizontal_destination) -> bool:
         from bishop import Bishop

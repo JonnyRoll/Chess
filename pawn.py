@@ -4,9 +4,15 @@ from piece import Piece, capture_piece
 
 class Pawn(Piece):
     first_move = True
-    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int, value: int):
+    def __init__(self, name: str, vertical_axis: int, horizontal_axis: int):
+        """
+        This creates the pawn piece
+        :param name: name of piece
+        :param vertical_axis: the column which the piece is in
+        :param horizontal_axis: the row which the piece is in
+        """
         # calling the super constructor
-        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=value)
+        super().__init__(name=name, vertical_axis=vertical_axis, horizontal_axis=horizontal_axis, value=1)
 
     next_queens_W = 2
     next_queens_B = 2
@@ -29,7 +35,7 @@ class Pawn(Piece):
                     piece_name = f'Q{Pawn.next_queens_W}_W' if self.color else f'Q{Pawn.next_queens_B}_B'
                     if self.color: Pawn.next_queens_W += 1
                     else: Pawn.next_queens_B += 1
-                    new_piece = Queen(name=piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis, value=9)
+                    new_piece = Queen(name=piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis)
                     create_pieces(new_piece)
                     place_pieces_on_board(new_piece)
                     capture_piece(opponent_set=current_set, killed_piece=self)
@@ -39,7 +45,7 @@ class Pawn(Piece):
                     piece_name = f'b{Pawn.next_bishop_W}_W' if self.color else f'b{Pawn.next_bishop_B}_B'
                     if self.color: Pawn.next_bishop_W += 1
                     else: Pawn.next_bishop_B += 1
-                    new_piece = Bishop(name=piece_name,vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis, value=3)
+                    new_piece = Bishop(name=piece_name,vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis)
                     create_pieces(new_piece)
                     place_pieces_on_board(new_piece)
                     capture_piece(opponent_set=current_set, killed_piece=self)
@@ -51,7 +57,7 @@ class Pawn(Piece):
                         Pawn.next_rook_W += 1
                     else:
                         Pawn.next_rook_B += 1
-                    new_piece = Rook(name= piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis, value=5)
+                    new_piece = Rook(name= piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis)
                     create_pieces(new_piece)
                     place_pieces_on_board(new_piece)
                     capture_piece(opponent_set=current_set, killed_piece=self)
@@ -59,7 +65,7 @@ class Pawn(Piece):
                 case 'knight':
                     from kight import Knight
                     piece_name = f'b{Pawn.next_knight_W}_W' if self.color else f'b{Pawn.next_knight_B}_B'
-                    new_piece = Knight(name=piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis, value=3)
+                    new_piece = Knight(name=piece_name, vertical_axis=self.vertical_axis, horizontal_axis=self.horizontal_axis)
                     create_pieces(new_piece)
                     place_pieces_on_board(new_piece)
                     capture_piece(opponent_set=current_set, killed_piece=self)
