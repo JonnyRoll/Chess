@@ -27,7 +27,7 @@ class Rook(Piece):
         calls the move validation check before moving the chess piece, this is the most outer call for rook piece
         :param vertical_destination: the desired vertical destination
         :param horizontal_destination: the desired horizontal destination
-        :return:  if the move was successfully done
+        :return:  if we can flip the turn to opponent
         """
         is_valid_move = self.valid_move(vertical_destination= vertical_destination, horizontal_destination= horizontal_destination)
         if is_valid_move:

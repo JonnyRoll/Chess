@@ -14,19 +14,33 @@ class Bishop(Piece):
         super().__init__(name = name, vertical_axis= vertical_axis, horizontal_axis = horizontal_axis, value = 3)
 
     def valid_move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        """
+        Checks if the move is valid by using the parents diagonal move validation function
+        :param vertical_destination: the vertical destination
+        :param horizontal_destination: the horizontal destination
+        :return: if the move is possible
+        """
         return Piece.valid_move_diagonal(self, vertical_destination=vertical_destination, horizontal_destination=horizontal_destination)
 
-    def move(self, vertical_destination_int: int, horizontal_destination: int) -> bool:
+    def move(self, vertical_destination: int, horizontal_destination: int) -> bool:
+        """
+        This function is used to move the bishop piece
+        :param vertical_destination: the vertical destination
+        :param horizontal_destination: the horizontal destination
+        :return: if we can flip the turn to opponent
+        """
+
         # check that the vertical and horizontal destination are on the board
-       if (0 <= vertical_destination_int < 8)  and (0 <= horizontal_destination < 8):
+        if (0 <= vertical_destination < 8)  and (0 <= horizontal_destination < 8):
            # if the desired destination is attainable
-           is_valid_move = self.valid_move(vertical_destination=vertical_destination_int,
+           is_valid_move = self.valid_move(vertical_destination=vertical_destination,
                                            horizontal_destination=horizontal_destination)
            if is_valid_move:
-               good_move = self.place_piece(vertical_desired=vertical_destination_int, horizontal_desired=horizontal_destination)
+               good_move = self.place_piece(vertical_desired=vertical_destination, horizontal_desired=horizontal_destination)
                return good_move
-       # if we reach here we know the move isn't valid!
-       return is_valid_move
+
+        # if we get here the move is not valid!
+        return False
 
 
 
